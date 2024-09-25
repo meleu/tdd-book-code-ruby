@@ -1,5 +1,6 @@
 require 'minitest/autorun'
 
+# Money implementation
 class Money
   attr_reader :amount, :currency
 
@@ -21,6 +22,25 @@ class Money
   end
 end
 
+# Portfolio class
+class Portfolio
+  attr_reader :moneys
+
+  def initialize
+    @moneys = []
+  end
+
+  def add(*moneys)
+    @moneys.concat(moneys)
+  end
+
+  def evaluate(currency)
+    total = moneys.sum(&:amount)
+    Money.new(total, currency)
+  end
+end
+
+# Testing the Money class
 class MoneyTest < Minitest::Test
   def test_multiplication_in_dollars
     five_dollars = Money.new(5, 'USD')
@@ -39,5 +59,16 @@ class MoneyTest < Minitest::Test
     actual_money_after_division = original_money.divide(4)
     expected_money_after_division = Money.new(1000.5, 'KRW')
     assert_equal expected_money_after_division, actual_money_after_division
+  end
+
+  def test_addition
+    five_dollars = Money.new(5, 'USD')
+    ten_dollars = Money.new(10, 'USD')
+    fifteen_dollars = Money.new(15, 'USD')
+
+    portfolio = Portfolio.new
+    portfolio.add(five_dollars, ten_dollars)
+
+    assert_equal fifteen_dollars, portfolio.evaluate('USD')
   end
 end
