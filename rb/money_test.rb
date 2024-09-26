@@ -26,4 +26,16 @@ class MoneyTest < Minitest::Test
     portfolio.add(five_dollars, ten_dollars)
     assert_equal fifteen_dollars, portfolio.evaluate('USD')
   end
+
+  def test_addition_of_dollars_and_euros
+    five_dollars = Money.new(5, 'USD')
+    ten_euros = Money.new(10, 'EUR')
+    portfolio = Portfolio.new
+    portfolio.add(five_dollars, ten_euros)
+    expected_value = Money.new(17, 'USD')
+    actual_value = portfolio.evaluate('USD')
+    assert_equal(
+      expected_value, actual_value, "#{expected_value} != #{actual_value}"
+    )
+  end
 end

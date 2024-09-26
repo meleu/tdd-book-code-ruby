@@ -18,4 +18,8 @@ class Money
   def ==(other)
     amount == other.amount && currency == other.currency
   end
+
+  def to_s
+    "#{currency} #{amount}"
+  end
 end
