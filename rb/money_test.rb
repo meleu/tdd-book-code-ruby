@@ -50,4 +50,15 @@ class MoneyTest < Minitest::Test
       expected_value, actual_value, "#{expected_value} != #{actual_value}"
     )
   end
+
+  def test_addition_with_multiple_missing_exchange_rates
+    one_dollar = Money.new(1, 'USD')
+    one_euro = Money.new(1, 'EUR')
+    one_won = Money.new(1, 'KRW')
+    portfolio = Portfolio.new
+    portfolio.add(one_dollar, one_euro, one_won)
+    expected_error_message = 'Missing exchange rate(s):[USD->Kalganid,EUR->Kalganid,KRW->Kalganid]'
+    error = assert_raises(StandardError) { portfolio.evaluate('Kalganid') }
+    assert_equal expected_error_message, error.message
+  end
 end
