@@ -38,4 +38,16 @@ class MoneyTest < Minitest::Test
       expected_value, actual_value, "#{expected_value} != #{actual_value}"
     )
   end
+
+  def test_addition_of_dollars_and_wons
+    one_dollar = Money.new(1, 'USD')
+    eleven_hundred_won = Money.new(1100, 'KRW')
+    portfolio = Portfolio.new
+    portfolio.add(one_dollar, eleven_hundred_won)
+    expected_value = Money.new(2200, 'KRW')
+    actual_value = portfolio.evaluate('KRW')
+    assert_equal(
+      expected_value, actual_value, "#{expected_value} != #{actual_value}"
+    )
+  end
 end

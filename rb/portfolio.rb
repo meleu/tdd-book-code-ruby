@@ -18,11 +18,15 @@ class Portfolio
   end
 
   def convert(money, currency)
-    eur_to_usd = 1.2
+    exchange_rates = {
+      'EUR->USD' => 1.2,
+      'USD->KRW' => 1100
+    }
     if money.currency == currency
       money.amount
     else
-      money.amount * eur_to_usd
+      key = "#{money.currency}->#{currency}"
+      money.amount * exchange_rates[key]
     end
   end
 end
