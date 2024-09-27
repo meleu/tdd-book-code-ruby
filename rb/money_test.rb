@@ -69,9 +69,12 @@ class MoneyTest < Minitest::Test
     assert_equal expected_error_message, error.message
   end
 
-  def test_conversion
+  def test_conversion_with_different_rates_between_two_currencies
     ten_euros = Money.new(10, 'EUR')
     assert_equal @bank.convert(ten_euros, 'USD'), Money.new(12, 'USD')
+
+    @bank.add_exchange_rate('EUR', 'USD', 1.3)
+    assert_equal @bank.convert(ten_euros, 'USD'), Money.new(13, 'USD')
   end
 
   def test_conversion_with_missing_exchange
